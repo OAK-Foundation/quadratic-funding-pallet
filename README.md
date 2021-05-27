@@ -19,7 +19,7 @@ This section explains two way of running this project, with Rust environment and
 ### 1. Run in Rust environment
 #### Rust Setup
 
-Follow the [Rust setup instructions](./doc/rust-setup.md) before using the included Makefile to build the Node Template.
+Follow the [Rust setup instructions](./docs/rust-setup.md) before using the included Makefile to build the Node Template.
 
 #### Makefile
 
@@ -94,7 +94,7 @@ If you want to see the multi-node consensus algorithm in action, refer to
 [our Start a Private Network tutorial](https://substrate.dev/docs/en/tutorials/start-a-private-network/).
 
 ## Developer Documentation
-Please refer to [Quadratic Funding Pallet](./doc/pallet-doc.md) documentations for development.
+Please refer to [Quadratic Funding Pallet](./docs/pallet-doc.md) documentations for development.
 
 ## Testing
 End-to-end testing using Polkadot.js library to simulate developer experience from web application is used to test against code in this repo. All test code are in [quadratic-funding-test repo](https://github.com/OAK-Foundation/quadratic-funding-test). There are two types of test cases, unit tests and functional tests.
@@ -187,13 +187,13 @@ Functional tests are categorized as below.
 
 	Click `Accounts`, select `ALICE`, and send 10000 units to `DAVE`.
 	
-	![Transfer](./doc/screenshots/Transfer.png)
+	![Transfer](./docs/screenshots/Transfer.png)
 	
 4. Contribute 1000 units to fund pool.
 
-	Click `Developer` -> `Extrinsics`, select the `ALICE` account, `openGrant` pallet and `fund` method, input 1000 units, then submit.
+	Click `Developer` -> `Extrinsics`, select the `ALICE` account, `quadraticFunding` pallet and `fund` method, input 1000 units, then submit.
 	
-	![Fund](./doc/screenshots/Fund.png)
+	![Fund](./docs/screenshots/Fund.png)
 	
 
 ##### 3. Examples
@@ -202,69 +202,69 @@ Functional tests are categorized as below.
 
 	1. Create a new project by using `BOB` account.
 
-		Click `Developer` -> `Extrinsics`, select the `BOB` account, `openGrant` pallet and `createProject` method, input the project info, then submit.
+		Click `Developer` -> `Extrinsics`, select the `BOB` account, `quadraticFunding` pallet and `createProject` method, input the project info, then submit.
 	
-		![CreateProject](./doc/screenshots/CreateProject.png)
+		![CreateProject](./docs/screenshots/CreateProject.png)
 	
-		If success, you can get the project info by `Develop` -> `Chain State`, select `openGrant` pallet and `projects` method, input `ProjectIndex` with `0`.
+		If success, you can get the project info by `Develop` -> `Chain State`, select `quadraticFunding` pallet and `projects` method, input `ProjectIndex` with `0`.
 	
-		![ProjectInfo](./doc/screenshots/ProjectInfo.png)
+		![ProjectInfo](./docs/screenshots/ProjectInfo.png)
 	
 	2. Schedule a new round by using `ALICE` account.
 
-		Click `Developer` -> `Extrinsics`, select the `ALICE` account, `sudo` pallet and `sudo` method, select `openGrant.scheduleRound` call, input the new round info (`start` should large than currrent block, and `end` should large than `start`), then submit.
+		Click `Developer` -> `Extrinsics`, select the `ALICE` account, `sudo` pallet and `sudo` method, select `quadraticFunding.scheduleRound` call, input the new round info (`start` should large than currrent block, and `end` should large than `start`), then submit.
 	
-		![ScheduleRound](./doc/screenshots/ScheduleRound.png)
+		![ScheduleRound](./docs/screenshots/ScheduleRound.png)
 	
-		If success, you can get the round info by `Develop` -> `Chain State`, select `openGrant` pallet and `rounds` method, input `RoundIndex` with `0`.
+		If success, you can get the round info by `Develop` -> `Chain State`, select `quadraticFunding` pallet and `rounds` method, input `RoundIndex` with `0`.
 	
-		![RoundInfo](./doc/screenshots/RoundInfo.png)
+		![RoundInfo](./docs/screenshots/RoundInfo.png)
 	
 	3. When the new round is active (current block > start and current block < end), using DAVE account to contribute 100 units to BOB's project (project_index is 0).
 
-		![Contribute](./doc/screenshots/Contribute.png)
+		![Contribute](./docs/screenshots/Contribute.png)
 	
-		If success, you can get the contribute info by `Develop` -> `Chain State`, select `openGrant` pallet and `rounds` method, input `RoundIndex` with `0`.
+		If success, you can get the contribute info by `Develop` -> `Chain State`, select `quadraticFunding` pallet and `rounds` method, input `RoundIndex` with `0`.
 	
-		![ContributeInfo](./doc/screenshots/ContributeInfo.png)
+		![ContributeInfo](./docs/screenshots/ContributeInfo.png)
 	
 2. **Fail test case with `withdraw` functional when the project owner (`BOB`) wants to withdraw a not approved project.**
 	
     1. After the active round is ended (`end` > current block), finalize the ended round by using `ALICE` account.
 
-    	Click `Developer` -> `Extrinsics`, select the `ALICE` account, `sudo` pallet and `sudo` method, select `openGrant.finalizeRound` call, input the ended `RoundIndex` with `0`, then submit.
+    	Click `Developer` -> `Extrinsics`, select the `ALICE` account, `sudo` pallet and `sudo` method, select `quadraticFunding.finalizeRound` call, input the ended `RoundIndex` with `0`, then submit.
 
-    	![FinalizeRound](./doc/screenshots/FinalizeRound.png)
+    	![FinalizeRound](./docs/screenshots/FinalizeRound.png)
     
-    	If success, you can get the finalized round info by `Develop` -> `Chain State`, select `openGrant` pallet and `rounds` method, input `RoundIndex` with `0`. You can find the `is_finalized ` is `true` now.
+    	If success, you can get the finalized round info by `Develop` -> `Chain State`, select `quadraticFunding` pallet and `rounds` method, input `RoundIndex` with `0`. You can find the `is_finalized ` is `true` now.
 	
-		![FinalizedRoundInfo](./doc/screenshots/FinalizedRoundInfo.png)
+		![FinalizedRoundInfo](./docs/screenshots/FinalizedRoundInfo.png)
 		
 	2. Using `BOB` account to withdraw the project's fund.
 
-		Click `Developer` -> `Extrinsics`, select the `BOB` account, `openGrant` pallet and `withdraw` method, input the `RoundIndex` with `0` and `ProjectIndex` with `0`, then submit. After a while you can get an error, because if the project owner (`BOB`) wants to withdraw, he first needs the root account (`Alice`) appove his project.
+		Click `Developer` -> `Extrinsics`, select the `BOB` account, `quadraticFunding` pallet and `withdraw` method, input the `RoundIndex` with `0` and `ProjectIndex` with `0`, then submit. After a while you can get an error, because if the project owner (`BOB`) wants to withdraw, he first needs the root account (`Alice`) appove his project.
 		
-		![WithdrawFail](./doc/screenshots/WithdrawFail.png)
+		![WithdrawFail](./docs/screenshots/WithdrawFail.png)
 
 
 3. **Success test case with `withdraw` functional**
 
 	1. Approve `BOB`'s project by using `ALICE` account.
 
-		Click `Developer` -> `Extrinsics`, select the `ALICE` account, `sudo` pallet and `sudo` method, select `openGrant.approve` call, input the finalized `RoundIndex` with `0` and need approved `ProjectIndex` with `0`, then submit.
+		Click `Developer` -> `Extrinsics`, select the `ALICE` account, `sudo` pallet and `sudo` method, select `quadraticFunding.approve` call, input the finalized `RoundIndex` with `0` and need approved `ProjectIndex` with `0`, then submit.
 		
-		![Approve](./doc/screenshots/Approve.png)
+		![Approve](./docs/screenshots/Approve.png)
 		
-		If success, you can get the contribute info by `Develop` -> `Chain State`, select `openGrant` pallet and `rounds` method, input `RoundIndex` with `0`. You can find the `is_approved` is `true` in `BOB`'s project now.
+		If success, you can get the contribute info by `Develop` -> `Chain State`, select `quadraticFunding` pallet and `rounds` method, input `RoundIndex` with `0`. You can find the `is_approved` is `true` in `BOB`'s project now.
 		
-		![ApprovedProjectInfo](./doc/screenshots/ApprovedProjectInfo.png)
+		![ApprovedProjectInfo](./docs/screenshots/ApprovedProjectInfo.png)
 		
 	2. Using `BOB` account to withdraw the project's fund.
 
-		Click `Developer` -> `Extrinsics`, select the `BOB` account, `openGrant` pallet and `withdraw` method, input the `RoundIndex` with `0` and `ProjectIndex` with `0`, then submit.
+		Click `Developer` -> `Extrinsics`, select the `BOB` account, `quadraticFunding` pallet and `withdraw` method, input the `RoundIndex` with `0` and `ProjectIndex` with `0`, then submit.
 		
-		![WithdrawSuccess](./doc/screenshots/WithdrawSuccess.png)
+		![WithdrawSuccess](./docs/screenshots/WithdrawSuccess.png)
 		
-		If success, you can get the contribute info by `Develop` -> `Chain State`, select `openGrant` pallet and `rounds` method, input `RoundIndex` with `0`. You can find the `is_withdrawn ` is `true` in `BOB`'s project now and can get other informations.
+		If success, you can get the contribute info by `Develop` -> `Chain State`, select `quadraticFunding` pallet and `rounds` method, input `RoundIndex` with `0`. You can find the `is_withdrawn ` is `true` in `BOB`'s project now and can get other informations.
 		
-		![ApprovedProjectInfo](./doc/screenshots/ApprovedProjectInfo.png)
+		![ApprovedProjectInfo](./docs/screenshots/ApprovedProjectInfo.png)
